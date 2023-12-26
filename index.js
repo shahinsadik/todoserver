@@ -1,9 +1,7 @@
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const express = require("express");
 const app = express();
-const stripe = require("stripe")(
-  "sk_test_51OFVfqDqdT1eaxGhxMfh2d7CKTogF7tpk0syj6jTysiIsGD6kY3zvcAmlTUi5N4Pc4EpYjKobahrBWKbQA69a7sq00faNyVnbZ"
-);
+
 
 const cors = require("cors");
 require("dotenv").config();
@@ -29,29 +27,29 @@ async function run() {
   try {
     // Connect the client to the server
 
-    const userCollection = client.db("ToDoList").collection("AddTask");
+    const addTaskCollection = client.db("ToDoList").collection("AddTask");
 
-    app.post("/addtask", async (req, res) => {
+    app.post("/AddTask", async (req, res) => {
       const member = req.body;
-      const result = await teamCollection.insertOne(member);
+      const result = await addTaskCollection.insertOne(member);
       res.send(result);
     });
 
-    app.get("/alltask", async (req, res) => {
+    app.get("/AllTask", async (req, res) => {
       // const email = req.query.email;
-      const result = await teamCollection.find().toArray();
+      const result = await addTaskCollection.find().toArray();
 
       res.send(result);
     });
 
-    app.delete("/alltask/:id", async (req, res) => {
+    app.delete("/delete/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
-      const result = await teamCollection.deleteOne(query);
+      const result = await addTaskCollection.deleteOne(query);
       res.send(result);
     });
 
-    app.patch("/alltask/:id", async (req, res) => {
+    app.patch("/AddTask/:id", async (req, res) => {
       const id = req.params.id;
 
       const query = { _id: new ObjectId(id) };
@@ -60,7 +58,7 @@ async function run() {
           isPending: true,
         },
       };
-      const result = await customAssetCollection.updateOne(query, updatedDoc);
+      const result = await addTaskCollection.updateOne(query, updatedDoc);
       res.send(result);
     });
 
